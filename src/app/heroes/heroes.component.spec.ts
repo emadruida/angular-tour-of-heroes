@@ -1,3 +1,4 @@
+import { HeroDetailComponent } from './../hero-detail/hero-detail.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeroesComponent } from './heroes.component';
@@ -8,9 +9,8 @@ describe('HeroesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HeroesComponent ]
-    })
-    .compileComponents();
+      declarations: [HeroesComponent, HeroDetailComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HeroesComponent);
     component = fixture.componentInstance;
