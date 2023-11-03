@@ -5,5 +5,5 @@
     "schedule:daily",
     ":disableRateLimiting"
   ],
-  "ignoreDeps": [ zone.js ]
+  "ignoreDeps": [ "zone.js" ]
 }
