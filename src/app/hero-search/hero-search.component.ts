@@ -4,11 +4,11 @@ import {
   Subject,
   debounceTime,
   distinctUntilChanged,
-  switchMap,
+  switchMap
 } from 'rxjs';
-
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 
@@ -27,7 +27,7 @@ import { HeroService } from '../hero.service';
         }
       </ul>
     </div>
-    `,
+  `,
   styleUrls: ['./hero-search.component.css'],
   standalone: true,
   imports: [
@@ -55,7 +55,7 @@ export class HeroSearchComponent implements OnInit {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.heroService.searchHeroes(term))
+      switchMap(async (term: string) => await this.heroService.searchHeroes(term))
     );
   }
 }
