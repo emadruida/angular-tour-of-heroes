@@ -41,19 +41,19 @@ export class HeroDetailComponent implements OnInit {
     this.getHero();
   }
 
-  getHero(): void {
+  async getHero(): Promise<void> {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.heroService.getHero(id).subscribe((hero) => (this.hero = hero));
+    this.hero = await this.heroService.getHero(id);
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  save(): void {
+  async save(): Promise<void> {
     if (this.hero) {
-      this.heroService.updateHero(this.hero)
-        .subscribe(() => this.goBack());
+      await this.heroService.updateHero(this.hero);
+      this.goBack();
     }
   }
 }
