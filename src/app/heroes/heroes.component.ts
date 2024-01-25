@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { HeroService } from '../hero.service';
 import { Hero } from './../hero';
 
 @Component({
-  selector: 'app-heroes',
-  templateUrl: './heroes.component.html',
-  styleUrls: ['./heroes.component.css'],
+    selector: 'app-heroes',
+    templateUrl: './heroes.component.html',
+    styleUrls: ['./heroes.component.css'],
+    standalone: true,
+    imports: [RouterLink],
 })
 export class HeroesComponent implements OnInit {
   heroes: Hero[] = [];

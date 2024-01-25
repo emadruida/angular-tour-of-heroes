@@ -1,25 +1,45 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  debounceTime,
-  distinctUntilChanged,
   Observable,
   Subject,
+  debounceTime,
+  distinctUntilChanged,
   switchMap,
 } from 'rxjs';
 
+import { AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 
 @Component({
   selector: 'app-hero-search',
-  templateUrl: './hero-search.component.html',
+  template: `
+    <div id="search-component">
+      <label for="search-box">Hero Search</label>
+      <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+
+      <ul class="search-result">
+        @for (hero of heroes$ | async; track hero.id) {
+          <li>
+            <a [routerLink]="['/detail', hero.id]">{{hero.name}}</a>
+          </li>
+        }
+      </ul>
+    </div>
+    `,
   styleUrls: ['./hero-search.component.css'],
+  standalone: true,
+  imports: [
+    RouterLink,
+    AsyncPipe,
+  ],
 })
 export class HeroSearchComponent implements OnInit {
   heroes$!: Observable<Hero[]>;
   private searchTerms = new Subject<string>();
 
-  constructor(private heroService: HeroService) {}
+  constructor(private heroService: HeroService) { }
 
   // Push a search term into the observable stream.
   search(term: string): void {
