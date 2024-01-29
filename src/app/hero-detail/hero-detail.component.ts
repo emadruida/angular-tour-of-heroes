@@ -1,5 +1,5 @@
 import { Location, UpperCasePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
@@ -29,13 +29,11 @@ import { HeroService } from '../hero.service';
   ],
 })
 export class HeroDetailComponent implements OnInit {
-  hero?: Hero;
+  private route = inject(ActivatedRoute);
+  private heroService = inject(HeroService);
+  private location = inject(Location);
 
-  constructor(
-    private route: ActivatedRoute,
-    private heroService: HeroService,
-    private location: Location
-  ) { }
+  hero?: Hero;
 
   ngOnInit(): void {
     this.getHero();

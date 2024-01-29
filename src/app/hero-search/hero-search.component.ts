@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   Observable,
   Subject,
@@ -6,8 +8,6 @@ import {
   distinctUntilChanged,
   switchMap
 } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
@@ -36,10 +36,10 @@ import { HeroService } from '../hero.service';
   ],
 })
 export class HeroSearchComponent implements OnInit {
+  private heroService = inject(HeroService);
+
   heroes$!: Observable<Hero[]>;
   private searchTerms = new Subject<string>();
-
-  constructor(private heroService: HeroService) { }
 
   // Push a search term into the observable stream.
   search(term: string): void {
