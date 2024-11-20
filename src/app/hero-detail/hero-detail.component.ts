@@ -7,8 +7,8 @@ import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 
 @Component({
-  selector: 'app-hero-detail',
-  template: `
+    selector: 'app-hero-detail',
+    template: `
     @if (hero) {
       <div>
         <h2>{{ hero.name | uppercase }} Details</h2>
@@ -21,12 +21,11 @@ import { HeroService } from '../hero.service';
       </div>
     }
   `,
-  styleUrls: ['./hero-detail.component.css'],
-  standalone: true,
-  imports: [
-    FormsModule,
-    UpperCasePipe,
-  ],
+    styleUrls: ['./hero-detail.component.css'],
+    imports: [
+        FormsModule,
+        UpperCasePipe,
+    ]
 })
 export class HeroDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);

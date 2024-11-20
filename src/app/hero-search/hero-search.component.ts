@@ -13,8 +13,8 @@ import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 
 @Component({
-  selector: 'app-hero-search',
-  template: `
+    selector: 'app-hero-search',
+    template: `
     <div id="search-component">
       <label for="search-box">Hero Search</label>
       <input #searchBox id="search-box" (input)="search(searchBox.value)" />
@@ -28,12 +28,11 @@ import { HeroService } from '../hero.service';
       </ul>
     </div>
   `,
-  styleUrls: ['./hero-search.component.css'],
-  standalone: true,
-  imports: [
-    RouterLink,
-    AsyncPipe,
-  ],
+    styleUrls: ['./hero-search.component.css'],
+    imports: [
+        RouterLink,
+        AsyncPipe,
+    ]
 })
 export class HeroSearchComponent implements OnInit {
   private heroService = inject(HeroService);

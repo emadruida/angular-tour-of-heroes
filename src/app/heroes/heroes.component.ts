@@ -7,8 +7,7 @@ import { Hero } from './../hero';
     selector: 'app-heroes',
     templateUrl: './heroes.component.html',
     styleUrls: ['./heroes.component.css'],
-    standalone: true,
-    imports: [RouterLink],
+    imports: [RouterLink]
 })
 export class HeroesComponent implements OnInit {
   private heroService = inject(HeroService);

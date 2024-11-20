@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { MessageService } from '../message.service';
 
 @Component({
-  selector: 'app-messages',
-  template: `
+    selector: 'app-messages',
+    template: `
     @if (messageService.messages.length) {
       <div>
         <h2>Messages</h2>
@@ -14,9 +14,8 @@ import { MessageService } from '../message.service';
       </div>
     }
   `,
-  styleUrls: ['./messages.component.css'],
-  standalone: true,
-  imports: []
+    styleUrls: ['./messages.component.css'],
+    imports: []
 })
 export class MessagesComponent {
   public messageService = inject(MessageService);

@@ -5,8 +5,8 @@ import { HeroSearchComponent } from '../hero-search/hero-search.component';
 import { HeroService } from '../hero.service';
 
 @Component({
-  selector: 'app-dashboard',
-  template: `
+    selector: 'app-dashboard',
+    template: `
     <app-hero-search></app-hero-search>
 
     <h2>Top Heroes</h2>
@@ -15,12 +15,11 @@ import { HeroService } from '../hero.service';
         <a [routerLink]="['/detail', hero.id]">{{ hero.name }}</a>
       }
     </div>`,
-  styleUrls: ['./dashboard.component.css'],
-  standalone: true,
-  imports: [
-    HeroSearchComponent,
-    RouterLink,
-  ],
+    styleUrls: ['./dashboard.component.css'],
+    imports: [
+        HeroSearchComponent,
+        RouterLink,
+    ]
 })
 export class DashboardComponent implements OnInit {
   private heroService = inject(HeroService);
