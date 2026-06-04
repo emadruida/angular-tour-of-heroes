@@ -1,5 +1,5 @@
 import { Location, UpperCasePipe } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
@@ -22,6 +22,7 @@ import { HeroService } from '../hero.service';
     }
   `,
     styleUrls: ['./hero-detail.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         FormsModule,
         UpperCasePipe,

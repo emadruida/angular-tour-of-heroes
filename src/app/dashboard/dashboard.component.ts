@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Hero } from '../hero';
 import { HeroSearchComponent } from '../hero-search/hero-search.component';
@@ -16,6 +16,7 @@ import { HeroService } from '../hero.service';
       }
     </div>`,
     styleUrls: ['./dashboard.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         HeroSearchComponent,
         RouterLink,

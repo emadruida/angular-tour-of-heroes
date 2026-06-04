@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MessageService } from '../message.service';
 
 @Component({
@@ -15,6 +15,7 @@ import { MessageService } from '../message.service';
     }
   `,
     styleUrls: ['./messages.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: []
 })
 export class MessagesComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MessagesComponent } from './messages/messages.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
@@ -14,6 +14,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
       <router-outlet></router-outlet>
     `,
     styleUrls: ['./app.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         RouterLink,
         RouterOutlet,
