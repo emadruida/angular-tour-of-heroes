@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HeroService } from '../hero.service';
 import { Hero } from './../hero';
@@ -7,20 +7,19 @@ import { Hero } from './../hero';
     selector: 'app-heroes',
     templateUrl: './heroes.component.html',
     styleUrls: ['./heroes.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [RouterLink]
 })
 export class HeroesComponent implements OnInit {
   private heroService = inject(HeroService);
 
-  heroes: Hero[] = [];
+  heroes = signal<Hero[]>([]);
 
   ngOnInit(): void {
     this.getHeroes();
   }
 
   async getHeroes(): Promise<void> {
-    this.heroes = await this.heroService.getHeroes();
+    this.heroes.set(await this.heroService.getHeroes());
   }
 
   async add(name: string): Promise<void> {
@@ -29,11 +28,11 @@ export class HeroesComponent implements OnInit {
       return;
     }
     const hero = await this.heroService.addHero({ name } as Hero);
-    this.heroes.push(hero);
+    this.heroes.update(heroes => [...heroes, hero]);
   }
 
   async delete(hero: Hero): Promise<void> {
     await this.heroService.deleteHero(hero.id);
-    this.heroes = this.heroes.filter(h => h !== hero);
+    this.heroes.update(heroes => heroes.filter(h => h !== hero));
   }
 }

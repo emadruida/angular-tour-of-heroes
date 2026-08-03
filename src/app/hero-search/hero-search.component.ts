@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   Observable,
@@ -29,7 +29,6 @@ import { HeroService } from '../hero.service';
     </div>
   `,
     styleUrls: ['./hero-search.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         RouterLink,
         AsyncPipe,

@@ -1,5 +1,5 @@
 import { Location, UpperCasePipe } from '@angular/common';
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
@@ -9,12 +9,12 @@ import { HeroService } from '../hero.service';
 @Component({
     selector: 'app-hero-detail',
     template: `
-    @if (hero) {
+    @if (hero()) {
       <div>
-        <h2>{{ hero.name | uppercase }} Details</h2>
+        <h2>{{ hero()!.name | uppercase }} Details</h2>
         <div>
           <label for="name">Hero name: </label>
-          <input id="name" [(ngModel)]="hero.name" placeholder="name" />
+          <input id="name" [(ngModel)]="hero()!.name" placeholder="name" />
         </div>
         <button type="button" (click)="goBack()">go back</button>
         <button type="button" (click)="save()">save</button>
@@ -22,7 +22,6 @@ import { HeroService } from '../hero.service';
     }
   `,
     styleUrls: ['./hero-detail.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         FormsModule,
         UpperCasePipe,
@@ -33,7 +32,7 @@ export class HeroDetailComponent implements OnInit {
   private heroService = inject(HeroService);
   private location = inject(Location);
 
-  hero?: Hero;
+  hero = signal<Hero | undefined>(undefined);
 
   ngOnInit(): void {
     this.getHero();
@@ -41,7 +40,7 @@ export class HeroDetailComponent implements OnInit {
 
   async getHero(): Promise<void> {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.hero = await this.heroService.getHero(id);
+    this.hero.set(await this.heroService.getHero(id));
   }
 
   goBack(): void {
@@ -49,8 +48,8 @@ export class HeroDetailComponent implements OnInit {
   }
 
   async save(): Promise<void> {
-    if (this.hero) {
-      await this.heroService.updateHero(this.hero);
+    if (this.hero()) {
+      await this.heroService.updateHero(this.hero()!);
       this.goBack();
     }
   }
