@@ -1,15 +1,6 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, debounced, inject, resource, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  Observable,
-  Subject,
-  debounceTime,
-  distinctUntilChanged,
-  switchMap
-} from 'rxjs';
 
-import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 
 @Component({
@@ -17,10 +8,13 @@ import { HeroService } from '../hero.service';
     template: `
     <div id="search-component">
       <label for="search-box">Hero Search</label>
-      <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+      <input id="search-box" (input)="searchTerms.set($event.target.value)" />
 
+      @if(heroes.isLoading()) {
+        <p>Searching...</p>
+      }
       <ul class="search-result">
-        @for (hero of heroes$ | async; track hero.id) {
+        @for (hero of heroes.value(); track hero.id) {
           <li>
             <a [routerLink]="['/detail', hero.id]">{{hero.name}}</a>
           </li>
@@ -31,30 +25,17 @@ import { HeroService } from '../hero.service';
     styleUrls: ['./hero-search.component.css'],
     imports: [
         RouterLink,
-        AsyncPipe,
     ]
 })
-export class HeroSearchComponent implements OnInit {
+export class HeroSearchComponent {
   private heroService = inject(HeroService);
 
-  heroes$!: Observable<Hero[]>;
-  private searchTerms = new Subject<string>();
+  public searchTerms = signal('');
 
-  // Push a search term into the observable stream.
-  search(term: string): void {
-    this.searchTerms.next(term);
-  }
+  private debouncedSearchTerms = debounced(this.searchTerms, 300);
 
-  ngOnInit(): void {
-    this.heroes$ = this.searchTerms.pipe(
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
-
-      // ignore new term if same as previous term
-      distinctUntilChanged(),
-
-      // switch to new search observable each time the term changes
-      switchMap(async (term: string) => await this.heroService.searchHeroes(term))
-    );
-  }
+  public heroes = resource({
+    params: () => this.debouncedSearchTerms.value(),
+    loader: ({params}) => this.heroService.searchHeroes(params),
+  });
 }

@@ -1,6 +1,5 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, resource, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Hero } from '../hero';
 import { HeroSearchComponent } from '../hero-search/hero-search.component';
 import { HeroService } from '../hero.service';
 
@@ -11,7 +10,7 @@ import { HeroService } from '../hero.service';
 
     <h2>Top Heroes</h2>
     <div class="heroes-menu">
-      @for (hero of heroes(); track hero.id) {
+      @for (hero of heroes.value(); track hero.id) {
         <a [routerLink]="['/detail', hero.id]">{{ hero.name }}</a>
       }
     </div>`,
@@ -21,17 +20,10 @@ import { HeroService } from '../hero.service';
         RouterLink,
     ]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   private heroService = inject(HeroService);
 
-  heroes = signal<Hero[]>([]);
-
-  ngOnInit(): void {
-    this.getHeroes();
-  }
-
-  async getHeroes(): Promise<void> {
-    const heroes = await this.heroService.getHeroes();
-    this.heroes.set(heroes.slice(1, 5));
-  }
+  heroes = resource({
+    loader: () => this.heroService.getHeroes().then(heroes => heroes.slice(1, 5)),
+  });
 }
